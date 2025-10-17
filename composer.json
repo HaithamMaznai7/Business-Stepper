@@ -1,0 +1,14 @@
+{
+    "name": "haimaz/business-services",
+    "description": "A laravel package for business systems to manage services and excute them based user data",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Haitham Maznai",
+            "email": "haitham.almaznai7@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "orchestra/testbench": "^10.6"
+    }
+}
