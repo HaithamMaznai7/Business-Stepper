@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="C:\xampp\htdocs\BusinessSteper\phpunit.xml" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.177943">
+    <testsuite name="Feature" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.177943">
+      <testsuite name="haimaz\BusinessSteper\Tests\Feature\MarkdownTest" file="C:\xampp\htdocs\BusinessSteper\tests\Feature\MarkdownTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.177943">
+        <testcase name="test_my_first_test" file="C:\xampp\htdocs\BusinessSteper\tests\Feature\MarkdownTest.php" line="10" class="haimaz\BusinessSteper\Tests\Feature\MarkdownTest" classname="haimaz.BusinessSteper.Tests.Feature.MarkdownTest" assertions="1" time="0.177943"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>
