@@ -15,12 +15,12 @@ abstract class TestCase extends BaseTestCase
     protected function getEnvironmentSetUp($app)
     {
         // Configure the "testing" database connection
-        $app['config']->set('database.default', 'testing');
-        $app['config']->set('database.connections.testing', [
-            'driver' => 'sqlite',
-            'database' => ':memory:', // in-memory database
-            'prefix' => '',
-        ]);
+        // $app['config']->set('database.default', 'testing');
+        // $app['config']->set('database.connections.testing', [
+        //     'driver' => 'sqlite',
+        //     'database' => ':memory:', // in-memory database
+        //     'prefix' => '',
+        // ]);
     }
 
     protected function setUp(): void

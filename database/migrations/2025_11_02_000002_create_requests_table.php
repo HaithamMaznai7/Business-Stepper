@@ -19,7 +19,11 @@ return new class extends Migration {
             $table->nullableMorphs('tenant');
             $table->nullableMorphs('requester');
             $table->json('data');
-            $table->string('current_step')->default(Helper::getDefaultStep());
+            if(Helper::getDefaultStep() == null){
+                $table->string('current_step')->nullable()->default(Helper::getDefaultStep());
+            }else{
+                $table->string('current_step')->default(Helper::getDefaultStep());
+            }
             $table->enum('type', Helper::getBusinessTypes())->default(Helper::getDefaultBusinessType());
             $table->json('extra')->nullable();
             $table->timestamps();

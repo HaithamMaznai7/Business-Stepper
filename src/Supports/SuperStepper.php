@@ -49,7 +49,7 @@ abstract class SuperStepper implements StepperInterface
 
     public function current()
     {
-        return $this->required()->first()?->getKey();
+        return $this->required()->first()?->getKey() ?? Helper::getDefaultStep();
     }
 
     public function next()

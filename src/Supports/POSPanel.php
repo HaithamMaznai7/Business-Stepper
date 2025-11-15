@@ -90,9 +90,9 @@ abstract class POSPanel implements POSInterface
             ]);
         }
 
-        // $this->currentRequest()->update([
-            //     'current_step' => $this->getStepper()->current(),
-            // ]);
+        $this->currentRequest()->update([
+            'current_step' => $this->getStepper()->current(),
+        ]);
             
         $this->currentRequest()->refresh();
 
@@ -114,9 +114,9 @@ abstract class POSPanel implements POSInterface
             $orderable->requests()->detach($this->currentRequest()->getKey());
         }
         
-        // $this->currentRequest()->update([
-        //     'current_step' => $this->getStepper()->current(),
-        // ]);
+        $this->currentRequest()->update([
+            'current_step' => $this->getStepper()->current(),
+        ]);
 
         $this->currentRequest()->refresh();
         
