@@ -12,16 +12,17 @@ abstract class Orderable extends Model
 
     public function getNameAttribute() : string
     {
-      return $this->name;
+      return $this->name ?? 'name';
     }
+
     public function getDescriptionAttribute() : string
     {
-      return $this->description;
+      return $this->description ?? 'description';
     }
 
     public function available() : bool
     {
-      return $this->active;
+      return $this->active ?? true;
     }
 
     public function uniqueOnSingleRequest() : bool
