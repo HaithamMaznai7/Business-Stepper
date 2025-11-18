@@ -17,6 +17,19 @@ class Request extends Model
 
   protected $fillable = ['creator_id', 'tenant_type', 'tenant_id', 'requester_type', 'requester_id', 'data', 'current_step', 'type', 'extra'];
 
+  protected $casts = [
+    'data' => 'array'
+  ];
+
+  protected $appends = [
+    'values'
+  ];
+
+  public function getValuesAttribute()
+  {
+    return json_decode($this->data, true);
+  }
+
   protected static function boot()
   {
     parent::boot();
@@ -109,7 +122,7 @@ class Request extends Model
     $saleables = $this->saleables();
     $all = collect([]);
 
-    foreach($saleables as $alias => $model){
+    foreach($saleables as $model){
       $all = $all->merge($model->get());
     }
 

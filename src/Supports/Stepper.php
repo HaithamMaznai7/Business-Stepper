@@ -6,43 +6,43 @@ use haimaz\BusinessSteper\Models\Request;
 use Illuminate\Support\Collection;
 
 class Stepper extends SuperStepper
-{    
-    
-    public function __construct(private Request $request, private Collection|null $beforeSteps = null, private Collection|null $afterSteps = null) {}
-    
-    public function beforeSteps(): Collection
-    {
-        return $this->beforeSteps ?? collect([]);
-    }
+{
+  public function __construct(protected Request $request) {}
+  public function primaryCacheKey(): string
+  {
+    return "request_{$this->request->uuid}_structure";
+  }
 
-    public function afterSteps(): Collection
-    {
-        return $this->afterSteps ?? collect([]);
-    }
+  public function beforeSteps(): Collection
+  {
+    return collect([]);
+  }
 
-    public function getSaleables(): Collection
-    {
-        return $this->request->allSaleables();
-    }
+  public function afterSteps(): Collection
+  {
+    return collect([]);
+  }
 
-    public function primaryCacheKey(): string
-    {
-        return "request-{$this->request->id}-structure";
-    }
+  public function getSaleables(): Collection
+  {
+    return $this->request->allSaleables();
+  }
 
-    public function isConfirmed(): bool
-    {
-        return count($this->requiredSteps()) == 0;
-    }
+  public function getValues(): array
+  {
+    return json_decode($this->request->data, true);
+  }
 
-    public function checkout(): void
-    {
-        
-    }
+  public function toArray()
+  {
+    return [];
+    // return $this->all()->map(function ($step) {
+    //   return $step->toArray();
+    // })->toArray();
+  }
 
-    public function getValues(): array
-    {
-        return json_decode($this->request->data, true);
-    }
+  public function checkout(): void
+  {
 
+  }
 }

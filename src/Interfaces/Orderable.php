@@ -12,35 +12,42 @@ abstract class Orderable extends Model
 
     public function getNameAttribute() : string
     {
-        return ' <Name> ';
+      return $this->name;
     }
     public function getDescriptionAttribute() : string
     {
-        return ' - Description';
+      return $this->description;
     }
 
     public function available() : bool
     {
-        return true;
+      return $this->active;
     }
 
     public function uniqueOnSingleRequest() : bool
     {
-        return false;
+      return false;
     }
 
     public function getRequirements(): Structure
     {
-        return new Structure([]);
+      return $this->steps ?? Structure::fromArray([]);
     }
 
     public function requests(): MorphToMany
     {
-        return $this->morphToMany(Request::class, 'saleable')->withPivot(['qty']);
+      return $this->morphToMany(Request::class, 'saleable')->withPivot(['qty']);
     }
-
     public function getSaleableCost(Request $request): float
     {
-        return .0;
+      return $this->price ?? .0;
+    }
+    public function getSaleableDiscount(Request $request): float
+    {
+      return $this->discount ?? .0;
+    }
+    public function getSaleableQTY(Request $request): int
+    {
+      return $this->requests()->where('requests.id', $request->id)->first()->pivot->qty ?? 1;
     }
 } 

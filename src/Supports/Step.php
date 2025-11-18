@@ -2,13 +2,13 @@
 
 namespace haimaz\BusinessSteper\Supports;
 
-use haimaz\BusinessSteper\Models\Request;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Facades\Validator;
 
-class Step
+class Step implements Arrayable
 {
     public $content;
-    
+
     public function __construct(
         public string $key,
         public string $title,
@@ -17,7 +17,7 @@ class Step
         public null|string $repeatName = null,
         array $requirements = [],
     ) {
-        
+
         if($this->repeatable && is_null($this->repeatName)){
             $this->repeatName = 'items';
         }
@@ -60,17 +60,17 @@ class Step
     {
         return self::fromArray(json_decode($json, true));
     }
-    
-    public static function fromArray($array)
+
+    public static function fromArray(array $array)
     {
-        return new Step(
-            $array["key"],
-            $array["title"],
-            $array["subtitle"],
-            $array["repeatable"],
-            $array["repeat-name"] ?? null,
-            $array["requirements"],
-        );
+      return new Step(
+          $array["key"],
+          $array["title"],
+          $array["subtitle"],
+          $array["repeatable"],
+          $array["repeat-name"] ?? null,
+          $array["requirements"],
+      );
     }
 
     public function getValues()
@@ -112,16 +112,40 @@ class Step
             })->first()->rules;
 
             foreach($inputRules as $index => $rule){
-                if(str_contains($rule, 'App\\Rules')){
-                    $inputRules[$index] = new $rule();
-                }else{
-                    $inputRules[$index] = $rule;
-                }
+              if(str_contains($rule, 'App\\Rules')){
+                  $inputRules[$index] = new $rule();
+              }else{
+                  $inputRules[$index] = $rule;
+              }
             }
             $rules[$input] = $inputRules;
         }
 
         return $rules;
+    }
+
+    public function getRequiredInputs()
+    {
+      $rules = [];
+      $inputs = $this->getInputs();
+
+      foreach($inputs as $input){
+        $inputRules = $this->content->where(function($item) use($input) {
+          return $item->key == $input;
+        })->first()->rules;
+
+        $requiredInput = [];
+
+        foreach($inputRules as $index => $rule){
+          if(str_contains($rule, 'required')){
+            $requiredInput[] = $rule;
+          }
+        }
+
+        $rules[$input] = $requiredInput;
+      }
+
+      return $rules;
     }
 
     public function getData()
@@ -157,28 +181,27 @@ class Step
             }
         }
 
-        
+
         $validator = $this->getValidator(
             $data
         );
-        
+
         return !$validator->fails();
     }
 
     public function build($requirements)
     {
-        $this->content = collect([]);
+      $this->content = collect([]);
 
-        foreach($requirements as $value){
-
-            $requirment = new Requirment(
-                $value['key'],
-                $value['value'],
-                $value['rules']
-            );
-
-            $this->content->add($requirment);
-
+      foreach($requirements as $data){
+        if(! is_array($data)){
+          dd($data);
         }
+        
+        $requirment = Requirment::fromArray($data);
+
+        $this->content->add($requirment);
+
+      }
     }
 }
