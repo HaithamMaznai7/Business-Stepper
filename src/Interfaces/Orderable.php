@@ -22,7 +22,7 @@ abstract class Orderable extends Model
 
     public function available() : bool
     {
-      return $this->active ?? true;
+      return $this->active ??;
     }
 
     public function uniqueOnSingleRequest() : bool

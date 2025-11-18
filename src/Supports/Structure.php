@@ -23,7 +23,7 @@ class Structure implements Arrayable
 
     $pressFileParser = (new PressFileParser($path));
 
-    return new Structure($pressFileParser->getData());
+    return new Structure($pressFileParser->getData()->toArray());
   }
 
   public static function fromJson($json): Structure
